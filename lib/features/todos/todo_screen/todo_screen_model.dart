@@ -10,4 +10,6 @@ class TodoScreenModel extends ElementaryModel {
   Future<List<Todo>?> getTodos() async {
     return _todoService.getTodos();
   }
+
+  Future<Todo> getPostById(String id) async => _todoService.fetchPostById(id);
 }

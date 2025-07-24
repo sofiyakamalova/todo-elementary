@@ -1,6 +1,7 @@
 import 'package:elementary/elementary.dart';
 import 'package:elementary_helper/elementary_helper.dart';
 import 'package:flutter/foundation.dart';
+import 'package:practice_app/client/graph_client.dart';
 
 import 'package:practice_app/features/todos/todo_screen/todo_screen.dart';
 import 'package:practice_app/features/todos/todo_screen/todo_screen_model.dart';
@@ -36,10 +37,22 @@ class TodoScreenWM extends WidgetModel<TodoScreen, TodoScreenModel>
       _currentState.error(err);
     }
   }
+
+  Future<void> loadSingleTodo(String id) async {
+    try {
+      _currentState.loading();
+      final todo = await model.getPostById(id);
+
+      _currentState.content([todo]);
+    } on Exception catch (err) {
+      _currentState.error(err);
+    }
+  }
 }
 
-TodoScreenWM createTodoScreenWM(BuildContext _) =>
-    TodoScreenWM(TodoScreenModel(TodoService()));
+TodoScreenWM createTodoScreenWM(BuildContext _) {
+  return TodoScreenWM(TodoScreenModel(TodoService(client)));
+}
 
 abstract class ITodoWm implements IWidgetModel {
   ValueListenable<EntityState<List<Todo>?>> get currentState;
