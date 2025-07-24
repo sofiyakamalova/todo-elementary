@@ -52,6 +52,7 @@ class TodoService {
 
     if (result.hasException) {
       throw result.exception!;
+      //ded
     }
 
     final data = result.data!['post'];
